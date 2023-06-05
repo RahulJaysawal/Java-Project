@@ -1,0 +1,30 @@
+format_version: '10'
+
+pipelines:
+  - name: java-project-pipeline
+    materials:
+      - git: https://github.com/RahulJaysawal/Java-Project.git
+        branch: <branch-name>
+        shallow_clone: true
+
+    stages:
+      - name: build
+        jobs:
+          - name: build-job
+            tasks:
+              - exec:
+                  command: mvn clean package
+
+      - name: test
+        jobs:
+          - name: test-job
+            tasks:
+              - exec:
+                  command: mvn test
+
+      - name: deploy
+        jobs:
+          - name: deploy-job
+            tasks:
+              - exec:
+                  command: mvn tomcat7:deploy
